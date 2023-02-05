@@ -3,11 +3,31 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Definitions.h"
+
 #include "GameFramework/Character.h"
 #include "CharacterBase.generated.h"
 
+struct FInputActionValue;
 class UCameraComponent;
 class USpringArmComponent;
+
+USTRUCT(BlueprintType)
+struct FInputObjetList
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Inputs")
+	class UInputAction* InputMove;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Inputs")
+	UInputAction* Looking;
+	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Inputs")
+	UInputAction* Jump;
+	
+};
+
 UCLASS()
 class ABILITYSYSTEM_API ACharacterBase : public ACharacter
 {
@@ -18,16 +38,30 @@ public:
 	ACharacterBase();
 
 protected:
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
+	class UInputMappingContext* InputMapping;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
+	FInputObjetList InputList;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Camera")
 	USpringArmComponent* SpringArmComponent;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Camera")
 	UCameraComponent* CameraComponent;
+
+	UPROPERTY()
+	class APlayerControllerBase* PlayerCtr;
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	
+	void MoveCharacter(const FInputActionValue& Value);
+
+	void LookCharacter(const FInputActionValue& Value);
+
+	void Jump(const FInputActionValue& Value);
+
 
 public:	
 	// Called every frame

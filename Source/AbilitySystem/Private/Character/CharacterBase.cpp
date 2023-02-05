@@ -3,9 +3,12 @@
 
 #include "AbilitySystem/Public/Character/CharacterBase.h"
 
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-
+#include "InputMappingContext.h"
+#include "PlayerControllerBase.h"
 
 // Sets default values
 ACharacterBase::ACharacterBase()
@@ -26,8 +29,13 @@ ACharacterBase::ACharacterBase()
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	PlayerCtr = Cast<APlayerControllerBase>(Controller);
+	
 	
 }
+
+
 
 // Called every frame
 void ACharacterBase::Tick(float DeltaTime)
@@ -41,5 +49,65 @@ void ACharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	APlayerController* PC = Cast<APlayerController>(GetController());
+ 
+	// Get the local player subsystem
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer());
+
+	UEnhancedInputComponent* PEI = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+
+	if(IsValid(Subsystem))
+	{
+		Subsystem->ClearAllMappings();
+		Subsystem->AddMappingContext(InputMapping, 0);
+	}
+
+	if(IsValid(PEI) )
+	{
+		if(InputList.InputMove)
+		{
+			PEI->BindAction(InputList.InputMove,ETriggerEvent::Triggered,this,&ThisClass::MoveCharacter);
+		}
+
+		if(InputList.Looking)
+		{
+			PEI->BindAction(InputList.Looking,ETriggerEvent::Triggered,this,&ThisClass::LookCharacter);
+		}
+
+		if(InputList.Jump)
+		{
+			PEI->BindAction(InputList.Jump,ETriggerEvent::Triggered,this,&ThisClass::Jump);
+		}
+		
+	}
+}
+
+void ACharacterBase::MoveCharacter(const FInputActionValue& Value)
+{
+	if(IsValid(PlayerCtr))
+	{
+		const FVector2d MoveValue = Value.Get<FVector2d>();
+		if(MoveValue.Y != 0.f)
+		{
+			PlayerCtr->MoveCharacterForward(MoveValue.Y);
+		}
+
+		if(MoveValue.X != 0.f)
+		{
+			PlayerCtr->MoveCharacterRight(MoveValue.X);
+		}
+	}
+}
+
+void ACharacterBase::LookCharacter(const FInputActionValue& Value)
+{
+}
+
+void ACharacterBase::Jump(const FInputActionValue& Value)
+{
+	if(IsValid(PlayerCtr))
+	{
+		PlayerCtr->CharacterJump();
+	}
 }
 

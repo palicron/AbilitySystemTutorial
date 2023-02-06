@@ -101,6 +101,21 @@ void ACharacterBase::MoveCharacter(const FInputActionValue& Value)
 
 void ACharacterBase::LookCharacter(const FInputActionValue& Value)
 {
+	if(IsValid(PlayerCtr))
+	{
+		const FVector2d LookValue = Value.Get<FVector2d>();
+
+		if(LookValue.X != 0.f)
+		{
+			AddControllerYawInput(LookValue.X);
+		}
+
+		if(LookValue.Y != 0.f)
+		{
+			AddControllerPitchInput(LookValue.Y);
+		}
+		
+	}
 }
 
 void ACharacterBase::Jump(const FInputActionValue& Value)

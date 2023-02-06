@@ -23,6 +23,7 @@ void APlayerControllerBase::MoveCharacterRight(float AxisValue)
 	const FVector ForwardCamaraVector = UKismetMathLibrary::GetRightVector(CamaraRotation);
 
 	GetPawn()->AddMovementInput(ForwardCamaraVector,AxisValue);
+	
 }
 
 void APlayerControllerBase::CharacterJump()

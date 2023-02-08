@@ -76,7 +76,12 @@ void ACharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 		if(InputList.Jump)
 		{
-			PEI->BindAction(InputList.Jump,ETriggerEvent::Triggered,this,&ThisClass::Jump);
+			PEI->BindAction(InputList.Jump,ETriggerEvent::Triggered,this,&ThisClass::JumpCharacter);
+		}
+
+		if(InputList.MeleeAttack)
+		{
+			PEI->BindAction(InputList.MeleeAttack,ETriggerEvent::Triggered,this,&ThisClass::MeleeAttack);
 		}
 		
 	}
@@ -118,11 +123,24 @@ void ACharacterBase::LookCharacter(const FInputActionValue& Value)
 	}
 }
 
-void ACharacterBase::Jump(const FInputActionValue& Value)
+void ACharacterBase::JumpCharacter(const FInputActionValue& Value)
 {
 	if(IsValid(PlayerCtr))
 	{
 		PlayerCtr->CharacterJump();
+	}
+}
+
+void ACharacterBase::MeleeAttack(const FInputActionValue& Value)
+{
+	if(IsValid(MeleeAttackMontage))
+	{
+		UAnimInstance* AnimInstance= GetMesh()->GetAnimInstance();
+
+		if(IsValid(AnimInstance))
+		{
+			AnimInstance->Montage_Play(MeleeAttackMontage);
+		}
 	}
 }
 

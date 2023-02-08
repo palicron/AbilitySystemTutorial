@@ -8,20 +8,26 @@
 
 void APlayerControllerBase::MoveCharacterForward(float Axis)
 {
-	const FRotator CamaraRotation =  PlayerCameraManager->GetCameraRotation();
+	FRotator CamaraRotation =  PlayerCameraManager->GetCameraRotation();
 
-	const FVector ForwardCamaraVector = UKismetMathLibrary::GetForwardVector(CamaraRotation);
+	CamaraRotation.Pitch = 0.f;
+	
+	FVector ForwardCamaraVector = UKismetMathLibrary::GetForwardVector(CamaraRotation);
 
+	
+	
 	GetPawn()->AddMovementInput(ForwardCamaraVector,Axis);
 	
 }
 
 void APlayerControllerBase::MoveCharacterRight(float AxisValue)
 {
-	const FRotator CamaraRotation =  PlayerCameraManager->GetCameraRotation();
+	FRotator CamaraRotation =  PlayerCameraManager->GetCameraRotation();
 
-	const FVector ForwardCamaraVector = UKismetMathLibrary::GetRightVector(CamaraRotation);
-
+	CamaraRotation.Pitch = 0.f;
+	
+	FVector ForwardCamaraVector = UKismetMathLibrary::GetRightVector(CamaraRotation);
+	
 	GetPawn()->AddMovementInput(ForwardCamaraVector,AxisValue);
 	
 }

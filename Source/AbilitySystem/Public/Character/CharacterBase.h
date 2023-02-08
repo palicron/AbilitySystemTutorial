@@ -25,6 +25,9 @@ struct FInputObjetList
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Inputs")
 	UInputAction* Jump;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Inputs")
+	UInputAction* MeleeAttack;
 	
 };
 
@@ -50,17 +53,26 @@ protected:
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Camera")
 	UCameraComponent* CameraComponent;
+	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Animation")
+	UAnimMontage* MeleeAttackMontage;
 
 	UPROPERTY()
 	class APlayerControllerBase* PlayerCtr;
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UFUNCTION()
 	void MoveCharacter(const FInputActionValue& Value);
 
+	UFUNCTION()
 	void LookCharacter(const FInputActionValue& Value);
 
-	void Jump(const FInputActionValue& Value);
+	UFUNCTION()
+	void JumpCharacter(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void MeleeAttack(const FInputActionValue& Value);
 
 
 public:	

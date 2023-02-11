@@ -4,13 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "Definitions.h"
-
+#include "AbilitySystemInterface.h"
 #include "GameFramework/Character.h"
 #include "CharacterBase.generated.h"
 
+class UGameplayAbility;
 struct FInputActionValue;
 class UCameraComponent;
 class USpringArmComponent;
+class UAbilitySystemComponent;
 
 USTRUCT(BlueprintType)
 struct FInputObjetList
@@ -32,7 +34,7 @@ struct FInputObjetList
 };
 
 UCLASS()
-class ABILITYSYSTEM_API ACharacterBase : public ACharacter
+class ABILITYSYSTEM_API ACharacterBase : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -74,6 +76,8 @@ protected:
 	UFUNCTION()
 	void MeleeAttack(const FInputActionValue& Value);
 
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
 
 public:	
 	// Called every frame
@@ -81,5 +85,12 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Category="Character Base")
+	UAbilitySystemComponent* AbilitySystemComp;
+
+	UFUNCTION(BlueprintCallable,Category="Character Base")
+	void AcquireAbility(TSubclassOf<UGameplayAbility> AbilityToAcquire);
+	
 
 };

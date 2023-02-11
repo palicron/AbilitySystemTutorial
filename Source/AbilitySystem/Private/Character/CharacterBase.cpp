@@ -9,6 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "InputMappingContext.h"
 #include "PlayerControllerBase.h"
+#include "AbilitySystemComponent.h"
 
 // Sets default values
 ACharacterBase::ACharacterBase()
@@ -23,6 +24,8 @@ ACharacterBase::ACharacterBase()
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("PlayerEye"));
 
 	CameraComponent->SetupAttachment(SpringArmComponent);
+
+	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystem"));
 }
 
 // Called when the game starts or when spawned
@@ -87,6 +90,7 @@ void ACharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	}
 }
 
+
 void ACharacterBase::MoveCharacter(const FInputActionValue& Value)
 {
 	if(IsValid(PlayerCtr))
@@ -142,5 +146,26 @@ void ACharacterBase::MeleeAttack(const FInputActionValue& Value)
 			AnimInstance->Montage_Play(MeleeAttackMontage);
 		}
 	}
+}
+
+void ACharacterBase::AcquireAbility(TSubclassOf<UGameplayAbility> AbilityToAcquire)
+{
+	if(IsValid(AbilitySystemComp))
+	{
+		if(HasAuthority() && AbilityToAcquire)
+		{
+			FGameplayAbilitySpecDef SpecDef = FGameplayAbilitySpecDef();
+			SpecDef.Ability = AbilityToAcquire;
+			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(SpecDef,1);
+			AbilitySystemComp->GiveAbility(AbilitySpec);
+		}
+		AbilitySystemComp->InitAbilityActorInfo(this,this);
+	}
+}
+
+
+UAbilitySystemComponent* ACharacterBase::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComp;
 }
 

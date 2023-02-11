@@ -56,8 +56,7 @@ protected:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Camera")
 	UCameraComponent* CameraComponent;
 	
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Animation")
-	UAnimMontage* MeleeAttackMontage;
+
 
 	UPROPERTY()
 	class APlayerControllerBase* PlayerCtr;
@@ -89,8 +88,12 @@ public:
 	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Category="Character Base")
 	UAbilitySystemComponent* AbilitySystemComp;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Game Ability")
+	TSubclassOf<UGameplayAbility> AbilityAttackRef;
+
 	UFUNCTION(BlueprintCallable,Category="Character Base")
 	void AcquireAbility(TSubclassOf<UGameplayAbility> AbilityToAcquire);
 	
+
 
 };

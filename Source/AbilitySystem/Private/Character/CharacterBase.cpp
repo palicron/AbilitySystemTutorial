@@ -34,6 +34,8 @@ void ACharacterBase::BeginPlay()
 	Super::BeginPlay();
 
 	PlayerCtr = Cast<APlayerControllerBase>(Controller);
+
+	AcquireAbility(AbilityAttackRef);
 	
 	
 }
@@ -84,7 +86,7 @@ void ACharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 		if(InputList.MeleeAttack)
 		{
-			PEI->BindAction(InputList.MeleeAttack,ETriggerEvent::Triggered,this,&ThisClass::MeleeAttack);
+			PEI->BindAction(InputList.MeleeAttack,ETriggerEvent::Started,this,&ThisClass::MeleeAttack);
 		}
 		
 	}
@@ -137,15 +139,12 @@ void ACharacterBase::JumpCharacter(const FInputActionValue& Value)
 
 void ACharacterBase::MeleeAttack(const FInputActionValue& Value)
 {
-	if(IsValid(MeleeAttackMontage))
+	if(IsValid(AbilitySystemComp))
 	{
-		UAnimInstance* AnimInstance= GetMesh()->GetAnimInstance();
-
-		if(IsValid(AnimInstance))
-		{
-			AnimInstance->Montage_Play(MeleeAttackMontage);
-		}
+		AbilitySystemComp->TryActivateAbilityByClass(AbilityAttackRef);
 	}
+	return;
+
 }
 
 void ACharacterBase::AcquireAbility(TSubclassOf<UGameplayAbility> AbilityToAcquire)

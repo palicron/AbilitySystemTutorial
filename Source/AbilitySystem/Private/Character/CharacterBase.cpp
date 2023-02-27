@@ -10,6 +10,7 @@
 #include "InputMappingContext.h"
 #include "PlayerControllerBase.h"
 #include "AbilitySystemComponent.h"
+#include "Character/AttributeSetBase.h"
 
 // Sets default values
 ACharacterBase::ACharacterBase()
@@ -22,6 +23,8 @@ ACharacterBase::ACharacterBase()
 	SpringArmComponent->SetupAttachment(RootComponent);
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("PlayerEye"));
+
+	AttributeSerBaseComp = CreateDefaultSubobject<UAttributeSetBase>(TEXT("Attribute Set Base"));
 
 	CameraComponent->SetupAttachment(SpringArmComponent);
 

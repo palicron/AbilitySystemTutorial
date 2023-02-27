@@ -33,6 +33,8 @@ struct FInputObjetList
 	
 };
 
+class UAttributeSetBase;
+
 UCLASS()
 class ABILITYSYSTEM_API ACharacterBase : public ACharacter, public IAbilitySystemInterface
 {
@@ -87,6 +89,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Category="Character Base")
 	UAbilitySystemComponent* AbilitySystemComp;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Category="Character Base")
+	UAttributeSetBase* AttributeSerBaseComp;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Game Ability")
 	TSubclassOf<UGameplayAbility> AbilityAttackRef;

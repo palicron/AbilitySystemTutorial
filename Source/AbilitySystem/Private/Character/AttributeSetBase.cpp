@@ -2,8 +2,21 @@
 
 
 #include "Character/AttributeSetBase.h"
-
+#include "GameplayEffectExtension.h"
+#include "GameplayEffectTypes.h"
+#include "GameplayEffect.h"
 UAttributeSetBase::UAttributeSetBase(): Health(200.f)
 {
 	
+}
+
+void UAttributeSetBase::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
+{
+	Super::PostGameplayEffectExecute(Data);
+	
+	if(Data.EvaluatedData.Attribute.GetUProperty() ==
+		FindFieldChecked<FProperty>(UAttributeSetBase::StaticClass(),GET_MEMBER_NAME_CHECKED(UAttributeSetBase,Health)))
+	{
+		UE_LOG(LogTemp,Warning,TEXT("DAmage take healt %f"),Health.GetCurrentValue())
+	}
 }

@@ -80,7 +80,11 @@ protected:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 
-public:	
+public:
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	bool bIsDeath = false;
+	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -105,5 +109,8 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase" , meta=(DisplayName="OnHealthChange" ))
 	void BP_OnHealthChange(float CurrentHealth,float MaxHealth);
 
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase" , meta=(DisplayName="Die" ))
+	void BP_Die();
 
 };

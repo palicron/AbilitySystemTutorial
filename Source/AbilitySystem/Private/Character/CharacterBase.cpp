@@ -40,6 +40,8 @@ void ACharacterBase::BeginPlay()
 
 	AcquireAbility(AbilityAttackRef);
 	
+	AttributeSerBaseComp->OnHealthChange.AddDynamic(this,&ThisClass::ACharacterBase::OnHealthChanged);
+	
 	
 }
 
@@ -163,6 +165,11 @@ void ACharacterBase::AcquireAbility(TSubclassOf<UGameplayAbility> AbilityToAcqui
 		}
 		AbilitySystemComp->InitAbilityActorInfo(this,this);
 	}
+}
+
+void ACharacterBase::OnHealthChanged(float CurrentHealth, float MaxHealth)
+{
+	BP_OnHealthChange(CurrentHealth,MaxHealth);
 }
 
 

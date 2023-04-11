@@ -98,7 +98,12 @@ public:
 
 	UFUNCTION(BlueprintCallable,Category="Character Base")
 	void AcquireAbility(TSubclassOf<UGameplayAbility> AbilityToAcquire);
-	
+
+	UFUNCTION()
+	void OnHealthChanged(float CurrentHealth,float MaxHealth);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase" , meta=(DisplayName="OnHealthChange" ))
+	void BP_OnHealthChange(float CurrentHealth,float MaxHealth);
 
 
 };

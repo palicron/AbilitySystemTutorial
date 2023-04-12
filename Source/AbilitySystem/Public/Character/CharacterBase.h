@@ -74,7 +74,7 @@ protected:
 	UFUNCTION()
 	void JumpCharacter(const FInputActionValue& Value);
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void MeleeAttack(const FInputActionValue& Value);
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;

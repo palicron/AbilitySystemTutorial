@@ -88,6 +88,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	uint8 TeamID = 255;
+
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
@@ -106,11 +109,18 @@ public:
 	UFUNCTION()
 	void OnHealthChanged(float CurrentHealth,float MaxHealth);
 
+	void DisableInputs() const;
+	
 	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase" , meta=(DisplayName="OnHealthChange" ))
 	void BP_OnHealthChange(float CurrentHealth,float MaxHealth);
 
+	UFUNCTION(BlueprintCallable,Category="Character Base")
+	bool IsOtherHostile(ACharacterBase* other);
 	
 	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase" , meta=(DisplayName="Die" ))
 	void BP_Die();
+
+	UFUNCTION()
+	void DeterminTeamIdByVontrollerType();
 
 };

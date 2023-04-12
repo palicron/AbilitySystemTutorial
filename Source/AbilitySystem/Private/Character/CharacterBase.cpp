@@ -10,6 +10,10 @@
 #include "InputMappingContext.h"
 #include "PlayerControllerBase.h"
 #include "AbilitySystemComponent.h"
+#include "AIController.h"
+#include "BrainComponent.h"
+#include "Blueprint/AIBlueprintHelperLibrary.h"
+
 #include "Character/AttributeSetBase.h"
 
 // Sets default values
@@ -36,12 +40,14 @@ void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 
+	
 	PlayerCtr = Cast<APlayerControllerBase>(Controller);
 
 	AcquireAbility(AbilityAttackRef);
 	
 	AttributeSerBaseComp->OnHealthChange.AddDynamic(this,&ThisClass::ACharacterBase::OnHealthChanged);
 	
+	DeterminTeamIdByVontrollerType();
 	
 }
 
@@ -173,7 +179,44 @@ void ACharacterBase::OnHealthChanged(float CurrentHealth, float MaxHealth)
 	if(CurrentHealth <= 0.f && !bIsDeath)
 	{
 		bIsDeath = true;
+		
+		DisableInputs();
+		
 		BP_Die();
+	}
+}
+
+void ACharacterBase::DisableInputs() const
+{
+
+	if(IsValid(PlayerCtr))
+	{
+		PlayerCtr->DisableInput(PlayerCtr);
+		return;
+	}
+	AAIController* AIC = Cast<AAIController>(GetController());
+	if(IsValid(AIC))
+	{
+		AIC->GetBrainComponent()->StopLogic("Dead");
+	}
+
+}
+
+bool ACharacterBase::IsOtherHostile(ACharacterBase* other)
+{
+	
+	return (IsValid(other) && other->TeamID!=TeamID);
+}
+
+void ACharacterBase::DeterminTeamIdByVontrollerType()
+{
+	if(GetController() && GetController()->IsPlayerController())
+	{
+		TeamID = 0;
+	}
+	else
+	{
+		TeamID = 1;
 	}
 }
 
@@ -182,4 +225,8 @@ UAbilitySystemComponent* ACharacterBase::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComp;
 }
+
+
+
+
 

@@ -51,6 +51,8 @@ void ACharacterBase::BeginPlay()
 	AttributeSerBaseComp->OnStrChange.AddDynamic(this,&ThisClass::ACharacterBase::OnStrChange);
 	
 	DeterminTeamIdByVontrollerType();
+
+	AddGamePlayTag(FUllHealthTag);
 	
 }
 
@@ -224,6 +226,17 @@ bool ACharacterBase::IsOtherHostile(ACharacterBase* other)
 {
 	
 	return (IsValid(other) && other->TeamID!=TeamID);
+}
+
+void ACharacterBase::AddGamePlayTag(FGameplayTag& TagToAdd)
+{
+	GetAbilitySystemComponent()->AddLooseGameplayTag(TagToAdd);
+	GetAbilitySystemComponent()->SetTagMapCount(TagToAdd,1);
+}
+
+void ACharacterBase::RemoveGamePlayTag(FGameplayTag& TagToRemove)
+{
+	GetAbilitySystemComponent()->RemoveLooseGameplayTag(TagToRemove);
 }
 
 void ACharacterBase::DeterminTeamIdByVontrollerType()

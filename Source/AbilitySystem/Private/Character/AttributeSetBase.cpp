@@ -5,6 +5,7 @@
 #include "GameplayEffectExtension.h"
 #include "GameplayEffectTypes.h"
 #include "GameplayEffect.h"
+#include "Character/CharacterBase.h"
 
 UAttributeSetBase::UAttributeSetBase(): Health(200.f),Mana(100.f),Strength(100.f)
 {
@@ -22,8 +23,20 @@ void UAttributeSetBase::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	{
 		Health.SetCurrentValue(FMath::Clamp(Health.GetCurrentValue(),0.f,MaxHealth.GetCurrentValue()));
 		Health.SetBaseValue(FMath::Clamp(Health.GetBaseValue(),0.f,MaxHealth.GetCurrentValue()));
-		if(GEngine)
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Some debug message!"));	
+
+		ACharacterBase* CharacterOwner = Cast<ACharacterBase>(GetOwningActor());
+		
+		if(Health.GetCurrentValue() >= MaxHealth.GetCurrentValue())
+		{
+			if(IsValid(CharacterOwner))
+			{
+				CharacterOwner->AddGamePlayTag(CharacterOwner->FUllHealthTag);
+			}
+		}
+		else
+		{
+			CharacterOwner->RemoveGamePlayTag(CharacterOwner->FUllHealthTag);
+		}
 		OnHealthChange.Broadcast(Health.GetCurrentValue(),MaxHealth.GetCurrentValue());
 	}
 	if(Data.EvaluatedData.Attribute.GetUProperty() ==

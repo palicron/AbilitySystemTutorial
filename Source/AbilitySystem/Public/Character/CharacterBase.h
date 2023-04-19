@@ -5,9 +5,11 @@
 #include "CoreMinimal.h"
 #include "Definitions.h"
 #include "AbilitySystemInterface.h"
+#include "GameplayTagContainer.h"
 #include "GameFramework/Character.h"
 #include "CharacterBase.generated.h"
 
+struct FGameplayTag;
 class UGameplayAbility;
 struct FInputActionValue;
 class UCameraComponent;
@@ -139,6 +141,16 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase" , meta=(DisplayName="Die" ))
 	void BP_Die();
 
+
+	UFUNCTION(BlueprintCallable,Category="Character Base")
+	void AddGamePlayTag(FGameplayTag& TagToAdd);
+
+	UFUNCTION(BlueprintCallable,Category="Character Base")
+	void RemoveGamePlayTag(FGameplayTag& TagToRemove);
+	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	FGameplayTag FUllHealthTag;
+	
 	UFUNCTION()
 	void DeterminTeamIdByVontrollerType();
 

@@ -39,13 +39,14 @@ ACharacterBase::ACharacterBase()
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-
 	
 	PlayerCtr = Cast<APlayerControllerBase>(Controller);
 
 	AcquireAbility(AbilityAttackRef);
 	
 	AttributeSerBaseComp->OnHealthChange.AddDynamic(this,&ThisClass::ACharacterBase::OnHealthChanged);
+	AttributeSerBaseComp->OnManaChange.AddDynamic(this,&ThisClass::ACharacterBase::OnManaChange);
+	AttributeSerBaseComp->OnStrChange.AddDynamic(this,&ThisClass::ACharacterBase::OnStrChange);
 	
 	DeterminTeamIdByVontrollerType();
 	
@@ -184,6 +185,16 @@ void ACharacterBase::OnHealthChanged(float CurrentHealth, float MaxHealth)
 		
 		BP_Die();
 	}
+}
+
+void ACharacterBase::OnManaChange(float CurrentMana, float MaxMana)
+{
+	BP_OnManaChange(CurrentMana,MaxMana);
+}
+
+void ACharacterBase::OnStrChange(float CurrenStr, float MaxStr)
+{
+	BP_OnStrChange(CurrenStr,MaxStr);
 }
 
 void ACharacterBase::DisableInputs() const

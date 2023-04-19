@@ -108,12 +108,24 @@ public:
 
 	UFUNCTION()
 	void OnHealthChanged(float CurrentHealth,float MaxHealth);
+	
+	UFUNCTION()
+	void OnManaChange(float CurrentMana,float MaxMana);
+	
+	UFUNCTION()
+	void OnStrChange(float CurrenStr,float MaxStr);
 
 	void DisableInputs() const;
 	
 	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase" , meta=(DisplayName="OnHealthChange" ))
 	void BP_OnHealthChange(float CurrentHealth,float MaxHealth);
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase" , meta=(DisplayName="nManaChange" ))
+	void BP_OnManaChange(float CurrentMana,float MaxMana);
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase" , meta=(DisplayName="OnStrChange" ))
+	void BP_OnStrChange(float CurrenStr,float MaxStr);
+	
 	UFUNCTION(BlueprintCallable,Category="Character Base")
 	bool IsOtherHostile(ACharacterBase* other);
 	

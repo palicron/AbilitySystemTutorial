@@ -35,7 +35,10 @@ struct FInputObjetList
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Inputs")
 	UInputAction* HealthRegent;
+
 	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Inputs")
+	UInputAction* DashInput;
 };
 
 class UAttributeSetBase;
@@ -68,6 +71,12 @@ protected:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void BP_RegentHealth();
+
+	UFUNCTION()
+	void DashAction();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void BP_DashAction();
 	
 	UPROPERTY()
 	class APlayerControllerBase* PlayerCtr;

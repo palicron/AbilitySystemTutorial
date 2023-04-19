@@ -108,7 +108,10 @@ void ACharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		{
 			PEI->BindAction(InputList.HealthRegent,ETriggerEvent::Started,this,&ACharacterBase::RegentHealth);
 		}
-		
+		if(InputList.DashInput)
+		{
+			PEI->BindAction(InputList.DashInput,ETriggerEvent::Started,this,&ACharacterBase::DashAction);
+		}
 		
 	}
 }
@@ -259,6 +262,11 @@ UAbilitySystemComponent* ACharacterBase::GetAbilitySystemComponent() const
 void ACharacterBase::RegentHealth()
 {
 	BP_RegentHealth();
+}
+
+void ACharacterBase::DashAction()
+{
+	BP_DashAction();
 }
 
 

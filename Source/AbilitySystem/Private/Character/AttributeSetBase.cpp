@@ -22,22 +22,23 @@ void UAttributeSetBase::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	{
 		Health.SetCurrentValue(FMath::Clamp(Health.GetCurrentValue(),0.f,MaxHealth.GetCurrentValue()));
 		Health.SetBaseValue(FMath::Clamp(Health.GetBaseValue(),0.f,MaxHealth.GetCurrentValue()));
-
+		if(GEngine)
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Some debug message!"));	
 		OnHealthChange.Broadcast(Health.GetCurrentValue(),MaxHealth.GetCurrentValue());
 	}
 	if(Data.EvaluatedData.Attribute.GetUProperty() ==
 	FindFieldChecked<FProperty>(UAttributeSetBase::StaticClass(),GET_MEMBER_NAME_CHECKED(UAttributeSetBase,Mana)))
 	{
-		Health.SetCurrentValue(FMath::Clamp(Mana.GetCurrentValue(),0.f,MaxMana.GetCurrentValue()));
-		Health.SetBaseValue(FMath::Clamp(Mana.GetBaseValue(),0.f,MaxMana.GetCurrentValue()));
+		Mana.SetCurrentValue(FMath::Clamp(Mana.GetCurrentValue(),0.f,MaxMana.GetCurrentValue()));
+		Mana.SetBaseValue(FMath::Clamp(Mana.GetBaseValue(),0.f,MaxMana.GetCurrentValue()));
 
 		OnManaChange.Broadcast(Mana.GetCurrentValue(),MaxMana.GetCurrentValue());
 	}
 	if(Data.EvaluatedData.Attribute.GetUProperty() ==
 	FindFieldChecked<FProperty>(UAttributeSetBase::StaticClass(),GET_MEMBER_NAME_CHECKED(UAttributeSetBase,Strength)))
 	{
-		Health.SetCurrentValue(FMath::Clamp(Strength.GetCurrentValue(),0.f,MaxStrength.GetCurrentValue()));
-		Health.SetBaseValue(FMath::Clamp(Strength.GetBaseValue(),0.f,MaxStrength.GetCurrentValue()));
+		Strength.SetCurrentValue(FMath::Clamp(Strength.GetCurrentValue(),0.f,MaxStrength.GetCurrentValue()));
+		Strength.SetBaseValue(FMath::Clamp(Strength.GetBaseValue(),0.f,MaxStrength.GetCurrentValue()));
 
 		OnStrChange.Broadcast(Strength.GetCurrentValue(),MaxStrength.GetCurrentValue());
 	}

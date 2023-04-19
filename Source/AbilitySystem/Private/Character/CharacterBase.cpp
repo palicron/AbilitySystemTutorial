@@ -35,6 +35,8 @@ ACharacterBase::ACharacterBase()
 	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystem"));
 }
 
+
+
 // Called when the game starts or when spawned
 void ACharacterBase::BeginPlay()
 {
@@ -100,6 +102,11 @@ void ACharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		{
 			PEI->BindAction(InputList.MeleeAttack,ETriggerEvent::Started,this,&ThisClass::MeleeAttack);
 		}
+		if(InputList.HealthRegent)
+		{
+			PEI->BindAction(InputList.HealthRegent,ETriggerEvent::Started,this,&ACharacterBase::RegentHealth);
+		}
+		
 		
 	}
 }
@@ -236,7 +243,10 @@ UAbilitySystemComponent* ACharacterBase::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComp;
 }
-
+void ACharacterBase::RegentHealth()
+{
+	BP_RegentHealth();
+}
 
 
 

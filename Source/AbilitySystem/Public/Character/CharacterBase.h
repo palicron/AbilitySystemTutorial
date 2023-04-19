@@ -30,6 +30,9 @@ struct FInputObjetList
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Inputs")
 	UInputAction* MeleeAttack;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Inputs")
+	UInputAction* HealthRegent;
 	
 };
 
@@ -58,8 +61,12 @@ protected:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Camera")
 	UCameraComponent* CameraComponent;
 	
+	UFUNCTION()
+	void RegentHealth();
 
-
+	UFUNCTION(BlueprintImplementableEvent)
+	void BP_RegentHealth();
+	
 	UPROPERTY()
 	class APlayerControllerBase* PlayerCtr;
 	// Called when the game starts or when spawned

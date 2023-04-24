@@ -15,6 +15,8 @@
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 
 #include "Character/AttributeSetBase.h"
+#include "Character/Ability/AbilityTypes.h"
+#include "Character/Ability/GameplayAbilityBase.h"
 
 // Sets default values
 ACharacterBase::ACharacterBase()
@@ -187,6 +189,22 @@ void ACharacterBase::AcquireAbility(TSubclassOf<UGameplayAbility> AbilityToAcqui
 	}
 }
 
+void ACharacterBase::AcquireAbilitys(TArray<TSubclassOf<UGameplayAbility>> AbilitysToAcquire)
+{
+	for (const TSubclassOf<UGameplayAbility>& Ability : AbilitysToAcquire)
+	{
+		AcquireAbility(Ability);
+		if(Ability->IsChildOf(UGameplayAbilityBase::StaticClass()))
+		{
+			TSubclassOf<UGameplayAbilityBase> AbilityBaseClass = * Ability;
+			if(Ability!=nullptr)
+			{
+			AddAbilityToUI(AbilityBaseClass);
+			}
+		}
+	}
+}
+
 void ACharacterBase::OnHealthChanged(float CurrentHealth, float MaxHealth)
 {
 	BP_OnHealthChange(CurrentHealth,MaxHealth);
@@ -275,6 +293,20 @@ void ACharacterBase::DeterminTeamIdByVontrollerType()
 	else
 	{
 		TeamID = 1;
+	}
+}
+
+void ACharacterBase::AddAbilityToUI(TSubclassOf<UGameplayAbilityBase> Ability)
+{
+	APlayerControllerBase* PlayerControlerBase = Cast<APlayerControllerBase>(GetController());
+	if(PlayerControlerBase)
+	{
+		UGameplayAbilityBase* AbilityInstace = Ability.Get()->GetDefaultObject<UGameplayAbilityBase>();
+		if(AbilityInstace)
+		{
+			FGamePlayAbilityInfo AbilityInfo = AbilityInstace->GetAbilityInfo();
+			PlayerControlerBase->AddAbilityToUI(AbilityInfo);
+		}
 	}
 }
 

@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "PlayerControllerBase.generated.h"
 
+struct FGamePlayAbilityInfo;
 /**
  * 
  */
@@ -21,5 +22,8 @@ public:
 	void MoveCharacterRight(float AxisValue);
 
 	void CharacterJump();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void AddAbilityToUI(FGamePlayAbilityInfo Ainfo);
 	
 };

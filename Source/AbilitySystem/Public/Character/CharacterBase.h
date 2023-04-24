@@ -9,6 +9,7 @@
 #include "GameFramework/Character.h"
 #include "CharacterBase.generated.h"
 
+class UGameplayAbilityBase;
 struct FGameplayTag;
 class UGameplayAbility;
 struct FInputActionValue;
@@ -124,6 +125,10 @@ public:
 	UFUNCTION(BlueprintCallable,Category="Character Base")
 	void AcquireAbility(TSubclassOf<UGameplayAbility> AbilityToAcquire);
 
+	UFUNCTION(BlueprintCallable,Category="Character Base")
+	void AcquireAbilitys(TArray<TSubclassOf<UGameplayAbility>> AbilitysToAcquire);
+
+
 	UFUNCTION()
 	void OnHealthChanged(float CurrentHealth,float MaxHealth);
 	
@@ -171,5 +176,9 @@ public:
 	
 	UFUNCTION()
 	void DeterminTeamIdByVontrollerType();
+
+protected:
+
+	void AddAbilityToUI(TSubclassOf<UGameplayAbilityBase> Ability);
 
 };

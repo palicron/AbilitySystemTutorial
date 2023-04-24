@@ -210,13 +210,36 @@ void ACharacterBase::OnStrChange(float CurrenStr, float MaxStr)
 	BP_OnStrChange(CurrenStr,MaxStr);
 }
 
+void ACharacterBase::HitStun(float StunDuration)
+{
+	DisableInputs();
+
+	GetWorld()->GetTimerManager().SetTimer(StunTimeHandler,this,&ACharacterBase::EnableInputs,StunDuration,false);
+}
+
+void ACharacterBase::EnableInputs() const
+{
+	if(bIsDeath)
+		return;
+	if(IsValid(PlayerCtr))
+	{
+		PlayerCtr->EnableInput(PlayerCtr);
+	
+	}
+	AAIController* AIC = Cast<AAIController>(GetController());
+	if(IsValid(AIC))
+	{
+		AIC->GetBrainComponent()->StartLogic();
+	}
+}
+
 void ACharacterBase::DisableInputs() const
 {
 
 	if(IsValid(PlayerCtr))
 	{
 		PlayerCtr->DisableInput(PlayerCtr);
-		return;
+
 	}
 	AAIController* AIC = Cast<AAIController>(GetController());
 	if(IsValid(AIC))

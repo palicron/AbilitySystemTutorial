@@ -133,6 +133,15 @@ public:
 	UFUNCTION()
 	void OnStrChange(float CurrenStr,float MaxStr);
 
+	UFUNCTION(BlueprintCallable)
+	void HitStun(float StunDuration);
+
+	FTimerHandle StunTimeHandler;
+	
+	UFUNCTION(BlueprintCallable)
+	void EnableInputs() const;
+	
+	UFUNCTION(BlueprintCallable)
 	void DisableInputs() const;
 	
 	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase" , meta=(DisplayName="OnHealthChange" ))

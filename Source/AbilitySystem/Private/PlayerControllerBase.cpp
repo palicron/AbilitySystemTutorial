@@ -15,7 +15,6 @@ void APlayerControllerBase::MoveCharacterForward(float Axis)
 	FVector ForwardCamaraVector = UKismetMathLibrary::GetForwardVector(CamaraRotation);
 
 	
-	
 	GetPawn()->AddMovementInput(ForwardCamaraVector,Axis);
 	
 }

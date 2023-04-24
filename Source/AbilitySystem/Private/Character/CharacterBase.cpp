@@ -182,6 +182,7 @@ void ACharacterBase::AcquireAbility(TSubclassOf<UGameplayAbility> AbilityToAcqui
 			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(SpecDef,1);
 			AbilitySystemComp->GiveAbility(AbilitySpec);
 		}
+		
 		AbilitySystemComp->InitAbilityActorInfo(this,this);
 	}
 }

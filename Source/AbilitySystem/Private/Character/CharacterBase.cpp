@@ -46,7 +46,7 @@ void ACharacterBase::BeginPlay()
 	
 	PlayerCtr = Cast<APlayerControllerBase>(Controller);
 
-	AcquireAbility(AbilityAttackRef);
+	//AcquireAbility(AbilityAttackRef);
 	
 	AttributeSerBaseComp->OnHealthChange.AddDynamic(this,&ThisClass::ACharacterBase::OnHealthChanged);
 	AttributeSerBaseComp->OnManaChange.AddDynamic(this,&ThisClass::ACharacterBase::OnManaChange);

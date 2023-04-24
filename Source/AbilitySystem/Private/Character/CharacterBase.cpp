@@ -317,12 +317,14 @@ UAbilitySystemComponent* ACharacterBase::GetAbilitySystemComponent() const
 }
 void ACharacterBase::RegentHealth()
 {
-	BP_RegentHealth();
+	BP_OnSlotButtonPress(0);
+	//BP_RegentHealth();
 }
 
 void ACharacterBase::DashAction()
 {
-	BP_DashAction();
+	BP_OnSlotButtonPress(1);
+	//BP_DashAction();
 }
 
 

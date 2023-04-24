@@ -181,4 +181,7 @@ protected:
 
 	void AddAbilityToUI(TSubclassOf<UGameplayAbilityBase> Ability);
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void BP_OnSlotButtonPress(int32 Slot);
+
 };

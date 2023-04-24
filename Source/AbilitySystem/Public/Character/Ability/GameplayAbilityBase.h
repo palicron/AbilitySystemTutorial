@@ -19,7 +19,8 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Ability base")
 	UMaterialInstance* UIMaterial;
 
-	
+	UFUNCTION(BlueprintCallable)
+	FGamePlayAbilityInfo GetAbilityInfo();
 
 	
 

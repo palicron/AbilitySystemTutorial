@@ -3,7 +3,7 @@
 
 #include "Character/Ability/GATargetActorGround.h"
 
-#include <ocidl.h>
+
 
 #include "Abilities/GameplayAbility.h"
 
@@ -50,7 +50,7 @@ bool  AGATargetActorGround::GetPlayerLocationPoint(FVector& OutViewPoint)
 
 void AGATargetActorGround::ConfirmTargetingAndContinue()
 {
-	//Super::ConfirmTargetingAndContinue();
+	
 
 	FVector ViewLocation;
 	GetPlayerLocationPoint(ViewLocation);
@@ -81,5 +81,10 @@ void AGATargetActorGround::ConfirmTargetingAndContinue()
 			}
 		}
 	}
-	
+	if(OverLapedActors.Num()>0)
+	{
+		FGameplayAbilityTargetDataHandle TargetData = StartLocation.MakeTargetDataHandleFromActors(OverLapedActors);
+		
+	}
+	Super::ConfirmTargetingAndContinue();
 }

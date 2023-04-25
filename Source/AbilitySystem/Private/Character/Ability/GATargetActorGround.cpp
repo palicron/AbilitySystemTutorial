@@ -14,10 +14,8 @@ void AGATargetActorGround::StartTargeting(UGameplayAbility* Ability)
 	PrimaryPC = Cast<APlayerController>(Ability->GetOwningActorFromActorInfo()->GetInstigatorController());
 }
 
-void AGATargetActorGround::ConfirmTargetingAndContinue()
+bool  AGATargetActorGround::GetPlayerLocationPoint(FVector& OutViewPoint)
 {
-	//Super::ConfirmTargetingAndContinue();
-
 	if(PrimaryPC)
 	{
 		FVector ViewPoint;
@@ -34,18 +32,54 @@ void AGATargetActorGround::ConfirmTargetingAndContinue()
 		APawn* MasterPawn = PrimaryPC->GetPawn();
 		if(MasterPawn)
 		{
-			
+			QueryParams.AddIgnoredActor(MasterPawn);
 		}
-		FVector LookAtpoint;
+	
 		bool TryTrace = GetWorld()->LineTraceSingleByChannel(Resutl,ViewPoint,
-			ViewPoint + ViewRotation.Vector()*10000.f,ECC_Visibility,QueryParams);
+		                                                     ViewPoint + ViewRotation.Vector()*10000.f,ECC_Visibility,QueryParams);
 		if(TryTrace)
 		{
-			LookAtpoint = Resutl.ImpactPoint;
+			OutViewPoint = Resutl.ImpactPoint;
+			return true;
 		}
-
-
+	
 		
 	}
+	return false;
+}
 
+void AGATargetActorGround::ConfirmTargetingAndContinue()
+{
+	//Super::ConfirmTargetingAndContinue();
+
+	FVector ViewLocation;
+	GetPlayerLocationPoint(ViewLocation);
+
+	TArray<FOverlapResult> OverlapsActor;
+	TArray<TWeakObjectPtr<AActor>> OverLapedActors;
+
+	FCollisionQueryParams Parms;
+	Parms.bTraceComplex = false;
+	Parms.bReturnPhysicalMaterial = false;
+	APawn* MasterPawn = PrimaryPC->GetPawn();
+	if(MasterPawn)
+	{
+		Parms.AddIgnoredActor(MasterPawn);
+	}
+
+	bool tryOverlap = GetWorld()->OverlapMultiByObjectType(OverlapsActor,ViewLocation,FQuat::Identity,FCollisionObjectQueryParams(ECC_Pawn)
+		,FCollisionShape::MakeSphere(Radius),Parms);
+	
+	if(tryOverlap)
+	{
+		for (const FOverlapResult& Hit : OverlapsActor)
+		{
+			APawn* OverlapPawn = Cast<APawn>(Hit.GetActor());
+			if(OverlapPawn && !OverLapedActors.Contains(OverlapPawn))
+			{
+				OverLapedActors.Add(OverlapPawn);
+			}
+		}
+	}
+	
 }

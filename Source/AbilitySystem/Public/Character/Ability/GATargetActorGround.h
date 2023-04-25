@@ -14,8 +14,15 @@ class ABILITYSYSTEM_API AGATargetActorGround : public AGameplayAbilityTargetActo
 {
 	GENERATED_BODY()
 
+public:
 	virtual void StartTargeting(UGameplayAbility* Ability) override;
 
+	UFUNCTION(BlueprintCallable)
+	bool GetPlayerLocationPoint(FVector& OutViewPoint);
+
 	virtual void ConfirmTargetingAndContinue() override;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	float Radius = 250.f;
 	
 };

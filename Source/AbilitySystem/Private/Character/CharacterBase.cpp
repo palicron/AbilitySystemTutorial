@@ -114,6 +114,14 @@ void ACharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		{
 			PEI->BindAction(InputList.DashInput,ETriggerEvent::Started,this,&ACharacterBase::DashAction);
 		}
+		if(InputList.AbilitySlot3)
+		{
+			PEI->BindAction(InputList.AbilitySlot3,ETriggerEvent::Started,this,&ACharacterBase::SlotAbility3);
+		}
+		if(InputList.AbilitySlot4)
+		{
+			PEI->BindAction(InputList.AbilitySlot4,ETriggerEvent::Started,this,&ACharacterBase::SlotAbility4);
+		}
 		
 	}
 }
@@ -325,6 +333,16 @@ void ACharacterBase::DashAction()
 {
 	BP_OnSlotButtonPress(1);
 	//BP_DashAction();
+}
+
+void ACharacterBase::SlotAbility3()
+{
+	BP_OnSlotButtonPress(2);
+}
+
+void ACharacterBase::SlotAbility4()
+{
+	BP_OnSlotButtonPress(3);
 }
 
 

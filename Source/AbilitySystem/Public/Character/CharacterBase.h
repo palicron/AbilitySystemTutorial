@@ -40,6 +40,12 @@ struct FInputObjetList
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Inputs")
 	UInputAction* DashInput;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Inputs")
+	UInputAction* AbilitySlot3;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Inputs")
+	UInputAction* AbilitySlot4;
 };
 
 class UAttributeSetBase;
@@ -75,6 +81,12 @@ protected:
 
 	UFUNCTION()
 	void DashAction();
+
+	UFUNCTION()
+	void SlotAbility3();
+
+	UFUNCTION()
+	void SlotAbility4();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void BP_DashAction();

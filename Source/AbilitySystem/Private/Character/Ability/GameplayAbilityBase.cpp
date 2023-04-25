@@ -11,8 +11,9 @@ FGamePlayAbilityInfo UGameplayAbilityBase::GetAbilityInfo()
 	UGameplayEffect* CostEffect = GetCostGameplayEffect();
 	if(CoolDownEffect && CostEffect )
 	{
+		
 		float CoolDownDuration = 0;
-		CoolDownDuration = CoolDownEffect->DurationMagnitude.GetStaticMagnitudeIfPossible(1,CoolDownDuration);
+		CoolDownEffect->DurationMagnitude.GetStaticMagnitudeIfPossible(1,CoolDownDuration);
 		float CostDownDuration = 0;
 		EAbilityCostType CostType = EAbilityCostType::Health;
 		if(CostEffect->Modifiers.Num()>0)

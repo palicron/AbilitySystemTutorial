@@ -15,6 +15,10 @@ class ABILITYSYSTEM_API AGATargetActorGround : public AGameplayAbilityTargetActo
 	GENERATED_BODY()
 
 public:
+
+	AGATargetActorGround();
+
+	virtual void Tick(float DeltaSeconds) override;
 	virtual void StartTargeting(UGameplayAbility* Ability) override;
 
 	UFUNCTION(BlueprintCallable)
@@ -22,7 +26,7 @@ public:
 
 	virtual void ConfirmTargetingAndContinue() override;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,meta=(ExposeOnSpawn=true))
 	float Radius = 250.f;
 	
 };

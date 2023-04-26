@@ -7,6 +7,15 @@
 
 #include "Abilities/GameplayAbility.h"
 
+AGATargetActorGround::AGATargetActorGround()
+{
+}
+
+void AGATargetActorGround::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+}
+
 void AGATargetActorGround::StartTargeting(UGameplayAbility* Ability)
 {
 	Super::StartTargeting(Ability);
